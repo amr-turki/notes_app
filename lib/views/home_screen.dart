@@ -110,7 +110,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
             const SizedBox(height: 30),
-            // تعديل: تم لف الـ ListView بـ Expanded حتى لا يسبب خطأ في الـ Column
             Expanded(
               child: ValueListenableBuilder(
                 valueListenable: boxNotes.listenable(),
@@ -118,7 +117,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: boxNotes.length,
                   itemBuilder: (context, index) {
                     Notes note = boxNotes.getAt(index);
-                    // تعديل: إضافة كلمة return هنا ضرورية جداً
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 12),
                       child: GestureDetector(

@@ -47,7 +47,7 @@ class AddNote extends StatelessWidget {
                 'key_${TitleController.text}',
                 Notes(
                   color: ColorPickers.TargetColor.value,
-                  content: TitleController.text,
+                  content: ContentController.text,
                   date: DateTime.now().toString(),
                   title: TitleController.text,
                 ),
