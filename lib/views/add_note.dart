@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:notes/Hive_box_const.dart';
-import 'package:notes/notes.dart';
+import 'package:notes/helper/Hive_box_const.dart';
+import 'package:notes/models/notes.dart';
 import 'package:notes/views/widgets/color_pickers.dart';
 import 'package:notes/views/widgets/custom_text_field.dart';
 
@@ -46,7 +46,7 @@ class AddNote extends StatelessWidget {
               boxNotes.put(
                 'key_${TitleController.text}',
                 Notes(
-                  color: ColorPickers.TargetColor!.value,
+                  color: ColorPickers.TargetColor.value,
                   content: TitleController.text,
                   date: DateTime.now().toString(),
                   title: TitleController.text,

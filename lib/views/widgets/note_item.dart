@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes/Hive_box_const.dart';
+import 'package:notes/helper/Hive_box_const.dart';
 
 class NoteItem extends StatelessWidget {
   const NoteItem({

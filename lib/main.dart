@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:notes/Hive_box_const.dart';
-import 'package:notes/notes.dart';
+import 'package:notes/helper/Hive_box_const.dart';
+import 'package:notes/models/notes.dart';
 import 'package:notes/views/splah_screen.dart';
 
 Future main() async {
