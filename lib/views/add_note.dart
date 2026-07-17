@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/cubits/notes_cubit.dart';
 import 'package:notes/helper/Hive_box_const.dart';
 import 'package:notes/models/notes.dart';
 import 'package:notes/views/widgets/color_pickers.dart';
@@ -43,15 +45,14 @@ class AddNote extends StatelessWidget {
 
           GestureDetector(
             onTap: () {
-              boxNotes.put(
-                'key_${TitleController.text}',
-                Notes(
-                  color: ColorPickers.TargetColor.value,
-                  content: ContentController.text,
-                  date: DateTime.now().toString(),
-                  title: TitleController.text,
-                ),
+              final newNote = Notes(
+                color: ColorPickers.TargetColor.value,
+                content: ContentController
+                    .text, // Fixed to properly grab content text
+                date: DateTime.now().toString(),
+                title: TitleController.text,
               );
+              BlocProvider.of<NotesCubit>(context).addNote(newNote);
 
               Navigator.of(context).pop();
             },

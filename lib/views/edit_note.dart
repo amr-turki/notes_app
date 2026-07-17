@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/cubits/notes_cubit.dart';
 import 'package:notes/helper/Hive_box_const.dart';
 import 'package:notes/models/notes.dart';
 import 'package:notes/views/home_screen.dart';
@@ -84,15 +86,15 @@ class _EditNoteState extends State<EditNote> {
 
                   child: IconButton(
                     onPressed: () {
-                      boxNotes.putAt(
-                        widget.index,
-                        Notes(
-                          title: TitleController.text,
-                          content: ContentController.text,
-                          color: ColorPickers.TargetColor.value,
-                          date: DateTime.now().toIso8601String(),
-                        ),
+                      final updatedNote = Notes(
+                        title: TitleController.text,
+                        content: ContentController.text,
+                        color: ColorPickers.TargetColor.value,
+                        date: DateTime.now().toIso8601String(),
                       );
+                      BlocProvider.of<NotesCubit>(
+                        context,
+                      ).editNote(index: widget.index, updatedNote: updatedNote);
                       Navigator.pop(context);
                     },
                     icon: Icon(Icons.check, size: 24),

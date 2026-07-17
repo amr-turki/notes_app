@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:notes/cubits/notes_cubit.dart';
 import 'package:notes/helper/Hive_box_const.dart';
 import 'package:notes/models/notes.dart';
 import 'package:notes/views/add_note.dart';
@@ -164,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               SlidableAction(
                                 onPressed: (context) {
                                   setState(() {
-                                    boxNotes.deleteAt(index);
+                                   BlocProvider.of<NotesCubit>(context).deleteNote(index);
                                   });
                                 },
                                 backgroundColor: Colors.red,

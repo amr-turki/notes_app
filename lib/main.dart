@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:notes/cubits/notes_cubit.dart';
 import 'package:notes/helper/Hive_box_const.dart';
 import 'package:notes/models/notes.dart';
 import 'package:notes/views/splah_screen.dart';
@@ -82,15 +84,18 @@ class _NotesApplicationState extends State<NotesApplication> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-
-      theme: ThemeData(primarySwatch: Colors.green),
-
-      // standard dark theme
-      darkTheme: ThemeData.dark(),
-      themeMode: _themeMode,
-      home: SplahScreen(changeTheme: changeTheme),
+    return BlocProvider(
+      create: (context) => NotesCubit(),
+      child:  MaterialApp(
+        debugShowCheckedModeBanner: false,
+      
+        theme: ThemeData(primarySwatch: Colors.green),
+      
+        // standard dark theme
+        darkTheme: ThemeData.dark(),
+        themeMode: _themeMode,
+        home: SplahScreen(changeTheme: changeTheme),
+      ),
     );
   }
 }
