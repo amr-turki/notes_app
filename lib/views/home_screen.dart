@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:notes/cubits/notes_cubit.dart';
+import 'package:notes/cubits/notes_state.dart';
 import 'package:notes/helper/Hive_box_const.dart';
 import 'package:notes/models/notes.dart';
 import 'package:notes/views/add_note.dart';
@@ -20,6 +21,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool search = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    BlocProvider.of<NotesCubit>(context).fetchAllNotes();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,13 +65,18 @@ class _HomeScreenState extends State<HomeScreen> {
             search
                 ? TextField(
                     autofocus: true,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      BlocProvider.of<NotesCubit>(context).searchNotes(value);
+                    },
                     decoration: InputDecoration(
                       hintText: 'Search for a note...',
                       prefixIcon: Icon(Icons.arrow_back),
                       suffixIcon: IconButton(
                         onPressed: () {
-                          search = !search;
+                          setState(() {
+                            search = !search;
+                          });
+                          BlocProvider.of<NotesCubit>(context).searchNotes('');
                         },
                         icon: Icon(Icons.close),
                       ),
@@ -113,81 +126,120 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
             const SizedBox(height: 30),
             Expanded(
-              child: ValueListenableBuilder(
-                valueListenable: boxNotes.listenable(),
-                builder: (context, value, child) => ListView.builder(
-                  itemCount: boxNotes.length,
-                  itemBuilder: (context, index) {
-                    Notes note = boxNotes.getAt(index);
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditNote(
-                                index: index,
-                                note: note,
+              child: BlocBuilder<NotesCubit, NotesState>(
+                builder: (context, state) {
+                  if (state is NotesLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (state is NotesSuccess) {
+                    final notesList = state.notes;
 
-                                changeTheme: widget.changeTheme,
+                    if (notesList.isEmpty) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.note_alt_outlined,
+                              size: 80,
+                              color: Colors.grey.withOpacity(0.5),
+                            ),
+                            const SizedBox(height: 16),
+                            const Text(
+                              'No notes found.',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey,
                               ),
                             ),
-                          );
-                        },
-                        child: Slidable(
-                          key: const ValueKey(0),
-                          startActionPane: ActionPane(
-                            motion: const ScrollMotion(),
-                            children: [
-                              SlidableAction(
-                                onPressed: (context) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => EditNote(
-                                        index: index,
-                                        note: note,
-                                        changeTheme: widget.changeTheme,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                backgroundColor: Colors.green,
-                                foregroundColor: Colors.white,
-                                icon: Icons.drive_file_rename_outline,
-                                label: 'Edit Notes',
-                              ),
-                            ],
-                          ),
-                          endActionPane: ActionPane(
-                            motion: const ScrollMotion(),
-                            children: [
-                              SlidableAction(
-                                onPressed: (context) {
-                                  setState(() {
-                                   BlocProvider.of<NotesCubit>(context).deleteNote(index);
-                                  });
-                                },
-                                backgroundColor: Colors.red,
-                                foregroundColor: Colors.white,
-                                icon: Icons.delete,
-                                label: 'Delete',
-                              ),
-                            ],
-                          ),
-                          child: NoteItem(
-                            index: index,
-                            color: Color(note.color),
-                            Title: note.title,
-                            note: note.content,
-                            time: note.date.substring(0, 10),
-                          ),
+                          ],
                         ),
-                      ),
+                      );
+                    }
+
+                    return ListView.builder(
+                      itemCount: notesList.length,
+                      itemBuilder: (context, index) {
+                        Notes note = notesList[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditNote(
+                                    index: index,
+                                    note: note,
+
+                                    changeTheme: widget.changeTheme,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Slidable(
+                              key: const ValueKey(0),
+                              startActionPane: ActionPane(
+                                motion: const ScrollMotion(),
+                                children: [
+                                  SlidableAction(
+                                    onPressed: (context) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => EditNote(
+                                            index: index,
+                                            note: note,
+                                            changeTheme: widget.changeTheme,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    backgroundColor: Colors.green,
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.drive_file_rename_outline,
+                                    label: 'Edit Notes',
+                                  ),
+                                ],
+                              ),
+                              endActionPane: ActionPane(
+                                motion: const ScrollMotion(),
+                                children: [
+                                  SlidableAction(
+                                    onPressed: (context) {
+                                      setState(() {
+                                        BlocProvider.of<NotesCubit>(
+                                          context,
+                                        ).deleteNote(index);
+                                      });
+                                    },
+                                    backgroundColor: Colors.red,
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.delete,
+                                    label: 'Delete',
+                                  ),
+                                ],
+                              ),
+                              child: NoteItem(
+                                index: index,
+                                color: Color(note.color),
+                                Title: note.title,
+                                note: note.content,
+                                time: note.date.substring(0, 10),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     );
-                  },
-                ),
+                  }
+
+                  if (state is NotesFailure) {
+                    return Center(child: Text(state.errorMessage));
+                  }
+                  return const SizedBox();
+                },
               ),
             ),
           ],

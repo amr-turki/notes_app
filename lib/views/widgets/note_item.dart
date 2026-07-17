@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/cubits/notes_cubit.dart';
 import 'package:notes/helper/Hive_box_const.dart';
 
-class NoteItem extends StatelessWidget {
+class NoteItem extends StatefulWidget {
   const NoteItem({
     super.key,
     required this.color,
     required this.Title,
     required this.note,
-    required this.time, required this.index,
+    required this.time,
+    required this.index,
   });
 
   final Color color;
@@ -15,12 +18,18 @@ class NoteItem extends StatelessWidget {
   final String note;
   final String time;
   final int index;
+
+  @override
+  State<NoteItem> createState() => _NoteItemState();
+}
+
+class _NoteItemState extends State<NoteItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: color,
+        color: widget.color,
 
         borderRadius: BorderRadius.circular(12),
       ),
@@ -37,7 +46,7 @@ class NoteItem extends StatelessWidget {
               title: Padding(
                 padding: const EdgeInsets.only(bottom: 12.0),
                 child: Text(
-                  Title,
+                  widget.Title,
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -46,16 +55,25 @@ class NoteItem extends StatelessWidget {
                 ),
               ),
               subtitle: Text(
-                note,
+                widget.note,
                 style: TextStyle(fontSize: 14, color: Colors.black),
               ),
               trailing: Container(
                 margin: EdgeInsets.only(left: 14),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: color.withOpacity(0.3),
+                  color: widget.color.withOpacity(0.3),
                 ),
-                child: IconButton(onPressed: () {                                   boxNotes.deleteAt(index);}, icon: Icon(Icons.delete)),
+                child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      BlocProvider.of<NotesCubit>(
+                        context,
+                      ).deleteNote(widget.index);
+                    });
+                  },
+                  icon: Icon(Icons.delete),
+                ),
               ),
             ),
             SizedBox(height: 12),
@@ -63,7 +81,10 @@ class NoteItem extends StatelessWidget {
             Row(
               children: [
                 Spacer(),
-                Text(time, style: TextStyle(fontSize: 14, color: Colors.black)),
+                Text(
+                  widget.time,
+                  style: TextStyle(fontSize: 14, color: Colors.black),
+                ),
               ],
             ),
           ],
