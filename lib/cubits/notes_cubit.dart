@@ -6,13 +6,32 @@ import 'notes_state.dart';
 class NotesCubit extends Cubit<NotesState> {
   NotesCubit() : super(NotesInitial());
 
+  List<Notes> _allNotes = [];
   void fetchAllNotes() {
     try {
       emit(NotesLoading());
-      List<Notes> notesList = boxNotes.values.cast<Notes>().toList();
-      emit(NotesSuccess(notesList));
+      _allNotes = boxNotes.values.cast<Notes>().toList();
+      emit(NotesSuccess(_allNotes));
     } catch (e) {
       emit(NotesFailure('Failed to fetch notes: ${e.toString()}'));
+    }
+  }
+
+  void searchNotes(String query) {
+    if (query.isEmpty) {
+      emit(NotesSuccess(_allNotes));
+    } else {
+      final filteredNotes = _allNotes.where((note) {
+        final titleMatch = note.title.toLowerCase().contains(
+          query.toLowerCase(),
+        );
+        final contentMatch = note.content.toLowerCase().contains(
+          query.toLowerCase(),
+        );
+        return titleMatch || contentMatch;
+      }).toList();
+
+      emit(NotesSuccess(filteredNotes));
     }
   }
 
