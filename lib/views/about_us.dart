@@ -26,11 +26,7 @@ class AboutUs extends StatelessWidget {
           padding: const EdgeInsets.only(top: 12.0),
           child: IconButton(
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => HomeScreen(changeTheme: changeTheme),
-                ),
-              );
+              Navigator.pop(context);
             },
             icon: Icon(
               Icons.chevron_left,
