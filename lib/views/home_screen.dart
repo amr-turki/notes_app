@@ -163,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) {
                         Notes note = notesList[index];
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.only(bottom: 12, top: 12),
                           child: GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -184,6 +184,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 motion: const ScrollMotion(),
                                 children: [
                                   SlidableAction(
+                                    borderRadius: BorderRadius.circular(16),
+
                                     onPressed: (context) {
                                       Navigator.push(
                                         context,
@@ -207,6 +209,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 motion: const ScrollMotion(),
                                 children: [
                                   SlidableAction(
+                                    borderRadius: BorderRadius.circular(16),
+
                                     onPressed: (context) {
                                       setState(() {
                                         BlocProvider.of<NotesCubit>(
