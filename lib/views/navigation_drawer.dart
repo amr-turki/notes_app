@@ -32,12 +32,7 @@ class Navigation extends StatelessWidget {
             SizedBox(height: 104),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomeScreen(changeTheme: changeTheme),
-                  ),
-                );
+                Navigator.pop(context);
               },
               child: Row(
                 children: [
