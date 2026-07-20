@@ -197,6 +197,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                       );
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text('Item Edited'),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
                                     },
                                     backgroundColor: Colors.green,
                                     foregroundColor: Colors.white,
@@ -217,6 +225,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                           context,
                                         ).deleteNote(index);
                                       });
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text('Item deleted'),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
                                     },
                                     backgroundColor: Colors.red,
                                     foregroundColor: Colors.white,
