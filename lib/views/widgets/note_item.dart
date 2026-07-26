@@ -70,6 +70,13 @@ class _NoteItemState extends State<NoteItem> {
                       BlocProvider.of<NotesCubit>(
                         context,
                       ).deleteNote(widget.index);
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Item deleted'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
                     });
                   },
                   icon: Icon(Icons.delete),

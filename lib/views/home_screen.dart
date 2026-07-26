@@ -197,14 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                       );
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        SnackBar(
-                                          content: Text('Item Edited'),
-                                          duration: Duration(seconds: 2),
-                                        ),
-                                      );
+                                
                                     },
                                     backgroundColor: Colors.green,
                                     foregroundColor: Colors.white,

@@ -54,6 +54,12 @@ class AddNote extends StatelessWidget {
               BlocProvider.of<NotesCubit>(context).addNote(newNote);
 
               Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Item added'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
             },
             child: Container(
               height: 45,

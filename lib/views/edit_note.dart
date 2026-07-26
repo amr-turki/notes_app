@@ -95,6 +95,12 @@ class _EditNoteState extends State<EditNote> {
                         context,
                       ).editNote(index: widget.index, updatedNote: updatedNote);
                       Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Item Edited'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
                     },
                     icon: Icon(Icons.check, size: 24),
                   ),
