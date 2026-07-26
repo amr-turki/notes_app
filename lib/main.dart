@@ -9,7 +9,6 @@ import 'package:notes/models/notes.dart';
 import 'package:notes/views/splah_screen.dart';
 
 Future main() async {
-  await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
 
   Hive.registerAdapter(NotesAdapter());
