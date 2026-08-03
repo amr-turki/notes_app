@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:notes/cubits/notes_cubit.dart';
 import 'package:notes/helper/Hive_box_const.dart';
 import 'package:notes/models/notes.dart';
-import 'package:notes/views/splah_screen.dart';
+import 'package:notes/views/splash_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
