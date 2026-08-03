@@ -10,10 +10,10 @@ import 'package:notes/views/splah_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
 
   Hive.registerAdapter(NotesAdapter());
   boxNotes = await Hive.openBox<Notes>('notesbox');
-  await Hive.initFlutter();
 
   runApp(NotesApplication());
 }

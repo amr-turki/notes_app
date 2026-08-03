@@ -28,12 +28,7 @@ class _SettingsState extends State<Settings> {
         ),
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) =>
-                    HomeScreen(changeTheme: widget.changeTheme),
-              ),
-            );
+            Navigator.of(context).pop();
           },
           icon: Icon(
             Icons.chevron_left,
