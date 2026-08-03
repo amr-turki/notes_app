@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:notes/cubits/notes_cubit.dart';
 import 'package:notes/cubits/notes_state.dart';
-import 'package:notes/helper/Hive_box_const.dart';
+import 'package:notes/helper/app_assests.dart';
 import 'package:notes/models/notes.dart';
 import 'package:notes/views/add_note.dart';
 import 'package:notes/views/edit_note.dart';
@@ -32,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: const Image(image: AssetImage('assests/icons/sticky-notes.png')),
+        child: const Image(image: AssetImage(AppAssets.stickyNote)),
         onPressed: () {
           showModalBottomSheet(
             context: context,
@@ -197,7 +196,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                       );
-                                
                                     },
                                     backgroundColor: Colors.green,
                                     foregroundColor: Colors.white,
@@ -216,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       setState(() {
                                         BlocProvider.of<NotesCubit>(
                                           context,
-                                        ).deleteNote(index);
+                                        ).deleteNote(notesList[index]);
                                       });
                                       ScaffoldMessenger.of(
                                         context,
@@ -234,13 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ],
                               ),
-                              child: NoteItem(
-                                index: index,
-                                color: Color(note.color),
-                                Title: note.title,
-                                note: note.content,
-                                time: note.date.substring(0, 10),
-                              ),
+                              child: NoteItem(note: notesList[index]),
                             ),
                           ),
                         );

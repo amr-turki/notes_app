@@ -1,23 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/cubits/notes_cubit.dart';
-import 'package:notes/helper/Hive_box_const.dart';
+import 'package:notes/models/notes.dart';
 
 class NoteItem extends StatefulWidget {
-  const NoteItem({
-    super.key,
-    required this.color,
-    required this.Title,
-    required this.note,
-    required this.time,
-    required this.index,
-  });
+  const NoteItem({super.key, required this.note});
 
-  final Color color;
-  final String Title;
-  final String note;
-  final String time;
-  final int index;
+  final Notes note;
 
   @override
   State<NoteItem> createState() => _NoteItemState();
@@ -29,7 +18,7 @@ class _NoteItemState extends State<NoteItem> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: widget.color,
+        color: Color(widget.note.color),
 
         borderRadius: BorderRadius.circular(12),
       ),
@@ -46,7 +35,7 @@ class _NoteItemState extends State<NoteItem> {
               title: Padding(
                 padding: const EdgeInsets.only(bottom: 12.0),
                 child: Text(
-                  widget.Title,
+                  widget.note.title,
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -55,21 +44,21 @@ class _NoteItemState extends State<NoteItem> {
                 ),
               ),
               subtitle: Text(
-                widget.note,
+                widget.note.content,
                 style: TextStyle(fontSize: 14, color: Colors.black),
               ),
               trailing: Container(
                 margin: EdgeInsets.only(left: 14),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: widget.color.withOpacity(0.3),
+                  color: Color(widget.note.color).withOpacity(0.3),
                 ),
                 child: IconButton(
                   onPressed: () {
                     setState(() {
                       BlocProvider.of<NotesCubit>(
                         context,
-                      ).deleteNote(widget.index);
+                      ).deleteNote(widget.note);
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -89,7 +78,7 @@ class _NoteItemState extends State<NoteItem> {
               children: [
                 Spacer(),
                 Text(
-                  widget.time,
+                  widget.note.date.substring(0, 10),
                   style: TextStyle(fontSize: 14, color: Colors.black),
                 ),
               ],

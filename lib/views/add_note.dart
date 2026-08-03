@@ -5,15 +5,20 @@ import 'package:notes/models/notes.dart';
 import 'package:notes/views/widgets/color_pickers.dart';
 import 'package:notes/views/widgets/custom_text_field.dart';
 
-class AddNote extends StatelessWidget {
+class AddNote extends StatefulWidget {
   const AddNote({super.key});
 
+  @override
+  State<AddNote> createState() => _AddNoteState();
+}
+
+class _AddNoteState extends State<AddNote> {
+  Color selectedColor = const Color(0xFFFFF4B7);
   @override
   Widget build(BuildContext context) {
     final TextEditingController TitleController = TextEditingController();
     final TextEditingController ContentController = TextEditingController();
 
-    final Color color;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: ListView(
@@ -36,18 +41,20 @@ class AddNote extends StatelessWidget {
           ),
           SizedBox(height: 15),
           ColorPickers(
-            color: Theme.of(context).brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
+            onColorSelected: (color) {
+              setState(() {
+                selectedColor = color;
+              });
+            },
           ),
           SizedBox(height: 15),
 
           GestureDetector(
             onTap: () {
               final newNote = Notes(
-                color: ColorPickers.TargetColor.value,
+                color: selectedColor.value,
                 content: ContentController
-                    .text, // Fixed to properly grab content text
+                    .text,
                 date: DateTime.now().toString(),
                 title: TitleController.text,
               );

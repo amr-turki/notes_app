@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/helper/app_assests.dart';
 import 'package:notes/views/home_screen.dart';
 
 class AboutUs extends StatelessWidget {
@@ -47,7 +48,7 @@ class AboutUs extends StatelessWidget {
               height: 75,
               width: 75,
 
-              image: AssetImage('assests/icons/sticky-note.png'),
+              image: AssetImage(AppAssets.stickyNote),
             ),
             SizedBox(height: 34),
             Text(

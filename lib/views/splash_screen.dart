@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/helper/app_assests.dart';
 import 'package:notes/views/home_screen.dart';
 
 class SplahScreen extends StatefulWidget {
@@ -12,7 +13,6 @@ class SplahScreen extends StatefulWidget {
 class _SplahScreenState extends State<SplahScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(
       Duration(seconds: 2),
@@ -31,7 +31,7 @@ class _SplahScreenState extends State<SplahScreen> {
           height: 170,
           width: 120,
 
-          child: Image(image: AssetImage('assests/icons/sticky-note.png')),
+          child: Image(image: AssetImage(AppAssets.stickyNote)),
         ),
       ),
     );

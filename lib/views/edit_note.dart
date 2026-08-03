@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/cubits/notes_cubit.dart';
+import 'package:notes/helper/app_assests.dart';
 import 'package:notes/models/notes.dart';
 import 'package:notes/views/home_screen.dart';
 import 'package:notes/views/widgets/color_pickers.dart';
@@ -22,13 +23,27 @@ class EditNote extends StatefulWidget {
 }
 
 class _EditNoteState extends State<EditNote> {
+  late TextEditingController titleController;
+  late TextEditingController contentController;
+  late Color selectedColor;
+
+  @override
+  void initState() {
+    super.initState();
+    titleController = TextEditingController(text: widget.note.title);
+    contentController = TextEditingController(text: widget.note.content);
+    selectedColor = Color(widget.note.color);
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    contentController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController TitleController = TextEditingController();
-    final TextEditingController ContentController = TextEditingController();
-    TitleController.text = widget.note.title;
-    ContentController.text = widget.note.content;
-
     return Scaffold(
       body: ListView(
         children: [
@@ -57,7 +72,7 @@ class _EditNoteState extends State<EditNote> {
                   height: 35,
                   width: 35,
 
-                  image: AssetImage('assests/icons/sticky-note.png'),
+                  image: AssetImage(AppAssets.stickyNote),
                 ),
                 SizedBox(width: 15),
                 Text(
@@ -81,9 +96,9 @@ class _EditNoteState extends State<EditNote> {
                   child: IconButton(
                     onPressed: () {
                       final updatedNote = Notes(
-                        title: TitleController.text,
-                        content: ContentController.text,
-                        color: ColorPickers.TargetColor.value,
+                        title: titleController.text,
+                        content: contentController.text,
+                        color: selectedColor.value,
                         date: DateTime.now().toIso8601String(),
                       );
                       BlocProvider.of<NotesCubit>(
@@ -105,7 +120,7 @@ class _EditNoteState extends State<EditNote> {
           ),
           SizedBox(height: 65),
           CustomTextField(
-            Controller: TitleController,
+            Controller: titleController,
             text: widget.note.title,
             maxLength: 20,
             maxLines: 1,
@@ -113,19 +128,20 @@ class _EditNoteState extends State<EditNote> {
 
           SizedBox(height: 30),
           CustomTextField(
-            Controller: ContentController,
+            Controller: contentController,
             text: widget.note.content,
             maxLength: 180,
             maxLines: 4,
           ),
 
           SizedBox(height: 65),
-          //color select and choose
           ColorPickers(
-            SelectedColor: Color(widget.note.color),
-            color: Theme.of(context).brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
+            initialColor: Color(widget.note.color),
+            onColorSelected: (color) {
+              setState(() {
+                selectedColor = color;
+              });
+            },
           ),
         ],
       ),

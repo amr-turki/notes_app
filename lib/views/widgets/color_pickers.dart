@@ -1,115 +1,60 @@
 import 'package:flutter/material.dart';
 
 class ColorPickers extends StatefulWidget {
-  const ColorPickers({super.key, required this.color, this.SelectedColor});
+  const ColorPickers({
+    super.key,
+    required this.onColorSelected,
+    this.initialColor,
+  });
 
-  final Color color;
-  static Color TargetColor = Colors.white;
-
-  final Color? SelectedColor;
+  final Function(Color) onColorSelected;
+  final Color? initialColor;
 
   @override
   State<ColorPickers> createState() => _ColorPickersState();
 }
 
 class _ColorPickersState extends State<ColorPickers> {
+  final List<Color> colors = const [
+    Color(0xFFFFF4B7),
+    Color(0xFFFFCAD4),
+    Color(0xFFB5E2FA),
+    Color(0xFFEDF2F4),
+    Color(0xFFF1C0B9),
+  ];
+
+  late Color selectedColor;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedColor = widget.initialColor ?? colors[0];
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool isBlack = false;
-    if (Colors.white == widget.color) {
-      isBlack = !isBlack;
-    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
+        children: colors.map((color) {
+          return GestureDetector(
             onTap: () {
-              ColorPickers.TargetColor = Color(0xFFFFF4B7);
+              setState(() {
+                selectedColor = color;
+              });
+
+              widget.onColorSelected(color);
             },
             child: CircleAvatar(
               radius: 25,
-              backgroundColor: Color(0xFFFFF4B7) == widget.SelectedColor
-                  ? isBlack
-                        ? Colors.white
-                        : Colors.black
-                  : widget.color,
-              child: CircleAvatar(
-                radius: 22,
-                backgroundColor: Color(0xFFFFF4B7),
-              ),
+              backgroundColor: selectedColor == color
+                  ? Colors.black
+                  : Colors.transparent,
+              child: CircleAvatar(radius: 22, backgroundColor: color),
             ),
-          ),
-          GestureDetector(
-            onTap: () {
-              ColorPickers.TargetColor = Color(0xFFFFCAD4);
-            },
-            child: CircleAvatar(
-              radius: 25,
-              backgroundColor: Color(0xFFFFCAD4) == widget.SelectedColor
-                  ? isBlack
-                        ? Colors.white
-                        : Colors.black
-                  : widget.color,
-              child: CircleAvatar(
-                radius: 22,
-                backgroundColor: Color(0xFFFFCAD4),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              ColorPickers.TargetColor = Color(0xFFB5E2FA);
-            },
-            child: CircleAvatar(
-              radius: 25,
-              backgroundColor: Color(0xFFB5E2FA) == widget.SelectedColor
-                  ? isBlack
-                        ? Colors.white
-                        : Colors.black
-                  : widget.color,
-              child: CircleAvatar(
-                radius: 22,
-                backgroundColor: Color(0xFFB5E2FA),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              ColorPickers.TargetColor = Color(0xFFEDF2F4);
-            },
-            child: CircleAvatar(
-              radius: 25,
-              backgroundColor: Color(0xFFEDF2F4) == widget.SelectedColor
-                  ? isBlack
-                        ? Colors.white
-                        : Colors.black
-                  : widget.color,
-              child: CircleAvatar(
-                radius: 22,
-                backgroundColor: Color(0xFFEDF2F4),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              ColorPickers.TargetColor = Color(0xFFF1C0B9);
-            },
-            child: CircleAvatar(
-              radius: 25,
-              backgroundColor: Color(0xFFF1C0B9) == widget.SelectedColor
-                  ? isBlack
-                        ? Colors.white
-                        : Colors.black
-                  : widget.color,
-              child: CircleAvatar(
-                radius: 22,
-                backgroundColor: Color(0xFFF1C0B9),
-              ),
-            ),
-          ),
-        ],
+          );
+        }).toList(),
       ),
     );
   }

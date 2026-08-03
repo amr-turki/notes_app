@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/helper/app_assests.dart';
 import 'package:notes/views/about_us.dart';
 import 'package:notes/views/home_screen.dart';
 import 'package:notes/views/settings.dart';
@@ -24,9 +25,7 @@ class Navigation extends StatelessWidget {
               child: SizedBox(
                 width: 110,
                 height: 140,
-                child: Image(
-                  image: AssetImage('assests/icons/sticky-note.png'),
-                ),
+                child: Image(image: AssetImage(AppAssets.addStickyNote)),
               ),
             ),
             SizedBox(height: 104),
