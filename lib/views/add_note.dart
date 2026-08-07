@@ -14,11 +14,26 @@ class AddNote extends StatefulWidget {
 
 class _AddNoteState extends State<AddNote> {
   Color selectedColor = const Color(0xFFFFF4B7);
+
+  late TextEditingController titleController;
+  late TextEditingController contentController;
+
+  @override
+  void initState() {
+    super.initState();
+    titleController = TextEditingController();
+    contentController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    contentController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController TitleController = TextEditingController();
-    final TextEditingController ContentController = TextEditingController();
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: ListView(
@@ -26,7 +41,7 @@ class _AddNoteState extends State<AddNote> {
           SizedBox(height: 45),
 
           CustomTextField(
-            Controller: TitleController,
+            Controller: titleController,
             text: 'Title',
             maxLength: 20,
             maxLines: 1,
@@ -34,7 +49,7 @@ class _AddNoteState extends State<AddNote> {
 
           SizedBox(height: 15),
           CustomTextField(
-            Controller: ContentController,
+            Controller: contentController,
             text: 'Content',
             maxLength: 180,
             maxLines: 4,
@@ -53,10 +68,9 @@ class _AddNoteState extends State<AddNote> {
             onTap: () {
               final newNote = Notes(
                 color: selectedColor.value,
-                content: ContentController
-                    .text,
+                content: contentController.text,
                 date: DateTime.now().toString(),
-                title: TitleController.text,
+                title: titleController.text,
               );
               BlocProvider.of<NotesCubit>(context).addNote(newNote);
 

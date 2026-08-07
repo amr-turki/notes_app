@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: const Image(image: AssetImage(AppAssets.stickyNote)),
+        child: Image.asset(AppAssets.addStickyNote),
         onPressed: () {
           showModalBottomSheet(
             context: context,
@@ -69,13 +69,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     decoration: InputDecoration(
                       hintText: 'Search for a note...',
-                      prefixIcon: Icon(Icons.arrow_back),
+                      prefixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            search = !search;
+                          });
+                        },
+                        icon: Icon(Icons.arrow_back),
+                      ),
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
                             search = !search;
                           });
-                          BlocProvider.of<NotesCubit>(context).searchNotes('');
                         },
                         icon: Icon(Icons.close),
                       ),

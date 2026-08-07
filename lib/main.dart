@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:notes/cubits/notes_cubit.dart';
+import 'package:notes/helper/Hive_box_const.dart';
 import 'package:notes/models/notes.dart';
 import 'package:notes/views/splash_screen.dart';
 
@@ -12,14 +13,13 @@ void main() async {
   await Hive.initFlutter();
 
   Hive.registerAdapter(NotesAdapter());
-  final Box<Notes> boxNotes = await Hive.openBox<Notes>('notesbox');
+  boxNotes = await Hive.openBox<Notes>('notesbox');
 
-  runApp(NotesApplication(notesBox: boxNotes));
+  runApp(NotesApplication());
 }
 
 class NotesApplication extends StatefulWidget {
-  const NotesApplication({super.key, required this.notesBox});
-  final Box<Notes> notesBox;
+  const NotesApplication({super.key});
 
   @override
   State<NotesApplication> createState() => _NotesApplicationState();
@@ -36,7 +36,7 @@ class _NotesApplicationState extends State<NotesApplication> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => NotesCubit(widget.notesBox),
+      create: (context) => NotesCubit(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
 

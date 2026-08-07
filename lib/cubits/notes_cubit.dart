@@ -1,17 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:notes/helper/Hive_box_const.dart';
 import 'package:notes/models/notes.dart';
 import 'notes_state.dart';
 
 class NotesCubit extends Cubit<NotesState> {
-  final Box<Notes> notesBox;
-  NotesCubit(this.notesBox) : super(NotesInitial());
+  NotesCubit() : super(NotesInitial());
 
   List<Notes> _allNotes = [];
   void fetchAllNotes() {
     try {
       emit(NotesLoading());
-      _allNotes = notesBox.values.cast<Notes>().toList();
+      _allNotes = boxNotes.values.cast<Notes>().toList();
       emit(NotesSuccess(_allNotes));
     } catch (e) {
       String friendlyMessage = _mapExceptionToMessage(e);
@@ -39,7 +39,7 @@ class NotesCubit extends Cubit<NotesState> {
 
   void addNote(Notes note) {
     try {
-      notesBox.put('key_${note.title}', note);
+      boxNotes.put('key_${note.title}', note);
       fetchAllNotes();
     } catch (e) {
       String friendlyMessage = _mapExceptionToMessage(e);
@@ -49,7 +49,7 @@ class NotesCubit extends Cubit<NotesState> {
 
   void editNote({required int index, required Notes updatedNote}) {
     try {
-      notesBox.putAt(index, updatedNote);
+      boxNotes.putAt(index, updatedNote);
       fetchAllNotes();
     } catch (e) {
       String friendlyMessage = _mapExceptionToMessage(e);
