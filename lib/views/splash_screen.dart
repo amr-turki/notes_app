@@ -3,7 +3,7 @@ import 'package:notes/helper/app_assests.dart';
 import 'package:notes/views/home_screen.dart';
 
 class SplahScreen extends StatefulWidget {
-  const SplahScreen({super.key,required this.changeTheme});
+  const SplahScreen({super.key, required this.changeTheme});
   final Function(ThemeMode) changeTheme;
 
   @override
@@ -14,13 +14,19 @@ class _SplahScreenState extends State<SplahScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-      Duration(seconds: 2),
-      () => Navigator.push(
+
+    navigateToHomeScreen();
+  }
+
+  void navigateToHomeScreen() {
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen(changeTheme: widget.changeTheme)),
-      ),
-    );
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(changeTheme: widget.changeTheme),
+        ),
+      );
+    });
   }
 
   @override
