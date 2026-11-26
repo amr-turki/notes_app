@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:notes/helper/app_assests.dart';
-import 'package:notes/views/home_screen.dart';
 
 class AboutUs extends StatelessWidget {
   const AboutUs({super.key, required this.changeTheme});

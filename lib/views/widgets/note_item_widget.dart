@@ -55,18 +55,7 @@ class _NoteItemState extends State<NoteItem> {
                 ),
                 child: IconButton(
                   onPressed: () {
-                    setState(() {
-                      BlocProvider.of<NotesCubit>(
-                        context,
-                      ).deleteNote(widget.note);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Item deleted'),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                    });
+                    _deleteItem(context);
                   },
                   icon: Icon(Icons.delete),
                 ),
@@ -86,6 +75,14 @@ class _NoteItemState extends State<NoteItem> {
           ],
         ),
       ),
+    );
+  }
+
+  void _deleteItem(BuildContext context) {
+    BlocProvider.of<NotesCubit>(context).deleteNote(widget.note);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Item deleted'), duration: Duration(seconds: 2)),
     );
   }
 }

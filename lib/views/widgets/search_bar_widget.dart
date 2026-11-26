@@ -11,9 +11,7 @@ class SearchBar extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'Search for a note...',
         prefixIcon: Icon(Icons.arrow_back),
-        suffixIcon: IconButton(onPressed: () {
-          
-        }, icon: Icon(Icons.close)),
+        suffixIcon: IconButton(onPressed: () {}, icon: Icon(Icons.close)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(color: Colors.blue),

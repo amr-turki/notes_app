@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes/helper/app_assests.dart';
-import 'package:notes/views/about_us.dart';
-import 'package:notes/views/home_screen.dart';
+import 'package:notes/views/about_us_screen.dart';
+
 import 'package:notes/views/settings.dart';
 
 class Navigation extends StatelessWidget {
@@ -29,6 +29,8 @@ class Navigation extends StatelessWidget {
               ),
             ),
             SizedBox(height: 104),
+
+            //Navigate to Notes Screen
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
@@ -59,6 +61,7 @@ class Navigation extends StatelessWidget {
               ),
             ),
             SizedBox(height: 24),
+            //Navigate to Settings Screen
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -97,6 +100,8 @@ class Navigation extends StatelessWidget {
             ),
 
             SizedBox(height: 24),
+
+            //Navigate to AboutUs Screen
             GestureDetector(
               onTap: () {
                 Navigator.push(

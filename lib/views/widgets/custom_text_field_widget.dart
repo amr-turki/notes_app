@@ -12,7 +12,7 @@ class CustomTextField extends StatelessWidget {
   final String text;
   final int maxLength;
   final int maxLines;
-  final TextEditingController Controller ;
+  final TextEditingController Controller;
   @override
   Widget build(BuildContext context) {
     return Padding(

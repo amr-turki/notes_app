@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:notes/cubits/notes_cubit.dart';
 import 'package:notes/cubits/notes_state.dart';
 import 'package:notes/helper/app_assests.dart';
-import 'package:notes/models/notes.dart';
-import 'package:notes/views/add_note.dart';
-import 'package:notes/views/edit_note.dart';
+import 'package:notes/views/add_note_screen.dart';
 import 'package:notes/views/navigation_drawer.dart';
-import 'package:notes/views/widgets/note_item.dart';
+import 'package:notes/views/widgets/left_drawer_widget.dart';
+import 'package:notes/views/widgets/no_notes_found_widget.dart';
+import 'package:notes/views/widgets/notes_feed_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.changeTheme});
@@ -24,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    BlocProvider.of<NotesCubit>(context).fetchAllNotes();
   }
 
   @override
@@ -44,21 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: Column(
           children: [
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Builder(
-                  builder: (context) {
-                    return IconButton(
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer();
-                      },
-                      icon: const Icon(Icons.menu, size: 28),
-                    );
-                  },
-                ),
-              ],
-            ),
+            const SizedBox(height: 50),
+            LeftDrawerWidget(),
             const SizedBox(height: 5),
 
             search
@@ -140,109 +125,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     final notesList = state.notes;
 
                     if (notesList.isEmpty) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.note_alt_outlined,
-                              size: 80,
-                              color: Colors.grey.withOpacity(0.5),
-                            ),
-                            const SizedBox(height: 16),
-                            const Text(
-                              'No notes found.',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
+                      return NoNotesFoundWidget();
                     }
 
-                    return ListView.builder(
-                      itemCount: notesList.length,
-                      itemBuilder: (context, index) {
-                        Notes note = notesList[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 12, top: 12),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EditNote(
-                                    index: index,
-                                    note: note,
-
-                                    changeTheme: widget.changeTheme,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Slidable(
-                              key: const ValueKey(0),
-                              startActionPane: ActionPane(
-                                motion: const ScrollMotion(),
-                                children: [
-                                  SlidableAction(
-                                    borderRadius: BorderRadius.circular(16),
-
-                                    onPressed: (context) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => EditNote(
-                                            index: index,
-                                            note: note,
-                                            changeTheme: widget.changeTheme,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    backgroundColor: Colors.green,
-                                    foregroundColor: Colors.white,
-                                    icon: Icons.drive_file_rename_outline,
-                                    label: 'Edit Notes',
-                                  ),
-                                ],
-                              ),
-                              endActionPane: ActionPane(
-                                motion: const ScrollMotion(),
-                                children: [
-                                  SlidableAction(
-                                    borderRadius: BorderRadius.circular(16),
-
-                                    onPressed: (context) {
-                                      setState(() {
-                                        BlocProvider.of<NotesCubit>(
-                                          context,
-                                        ).deleteNote(notesList[index]);
-                                      });
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        SnackBar(
-                                          content: Text('Item deleted'),
-                                          duration: Duration(seconds: 2),
-                                        ),
-                                      );
-                                    },
-                                    backgroundColor: Colors.red,
-                                    foregroundColor: Colors.white,
-                                    icon: Icons.delete,
-                                    label: 'Delete',
-                                  ),
-                                ],
-                              ),
-                              child: NoteItem(note: notesList[index]),
-                            ),
-                          ),
-                        );
-                      },
+                    return NotesFeedWidget(
+                      notesList: state.notes,
+                      changeTheme: widget.changeTheme,
                     );
                   }
 

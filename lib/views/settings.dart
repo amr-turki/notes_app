@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notes/views/home_screen.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key, required this.changeTheme});

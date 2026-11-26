@@ -1,11 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:notes/helper/Hive_box_const.dart';
 import 'package:notes/models/notes.dart';
 import 'notes_state.dart';
 
 class NotesCubit extends Cubit<NotesState> {
-  NotesCubit() : super(NotesInitial());
+  NotesCubit() : super(NotesInitial()) {
+    fetchAllNotes();
+  }
 
   List<Notes> _allNotes = [];
   void fetchAllNotes() {

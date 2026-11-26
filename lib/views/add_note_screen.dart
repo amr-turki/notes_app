@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/cubits/notes_cubit.dart';
-import 'package:notes/models/notes.dart';
-import 'package:notes/views/widgets/color_pickers.dart';
-import 'package:notes/views/widgets/custom_text_field.dart';
+import 'package:notes/views/widgets/add_note_button.dart';
+import 'package:notes/views/widgets/color_pickers_widget.dart';
+import 'package:notes/views/widgets/custom_text_field_widget.dart';
 
 class AddNote extends StatefulWidget {
   const AddNote({super.key});
@@ -64,43 +62,10 @@ class _AddNoteState extends State<AddNote> {
           ),
           SizedBox(height: 15),
 
-          GestureDetector(
-            onTap: () {
-              final newNote = Notes(
-                color: selectedColor.value,
-                content: contentController.text,
-                date: DateTime.now().toString(),
-                title: titleController.text,
-              );
-              BlocProvider.of<NotesCubit>(context).addNote(newNote);
-
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Item added'),
-                  duration: Duration(seconds: 2),
-                ),
-              );
-            },
-            child: Container(
-              height: 45,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Center(
-                child: Text(
-                  'Add Note',
-
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.white,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-              ),
-            ),
+          AddNoteButton(
+            contentController: contentController,
+            selectedColor: selectedColor,
+            titleController: titleController,
           ),
           SizedBox(height: 25),
         ],
