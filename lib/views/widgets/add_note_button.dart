@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/cubits/add_note_cubit.dart';
 import 'package:notes/cubits/notes_cubit.dart';
 import 'package:notes/models/notes.dart';
 
@@ -48,7 +50,8 @@ class AddNoteButton extends StatelessWidget {
       date: DateTime.now().toString(),
       title: titleController.text,
     );
-    NotesCubit.instance.addNote(newNote);
+    AddNoteCubit.instance.addNote(newNote);
+    NotesCubit.instance.fetchAllNotes();
 
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context).showSnackBar(

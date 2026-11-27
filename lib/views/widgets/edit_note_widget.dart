@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/cubits/edit_note_cubit.dart';
 import 'package:notes/cubits/notes_cubit.dart';
 import 'package:notes/helper/app_assests.dart';
 import 'package:notes/models/notes.dart';
@@ -79,7 +79,8 @@ class EditNoteWidget extends StatelessWidget {
       color: selectedColor.value,
       date: DateTime.now().toIso8601String(),
     );
-    NotesCubit.instance.editNote(index: index, updatedNote: updatedNote);
+    EditNoteCubit.instance.editNote(index: index, updatedNote: updatedNote);
+    NotesCubit.instance.fetchAllNotes();
     Navigator.pop(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Item Edited'), duration: Duration(seconds: 2)),

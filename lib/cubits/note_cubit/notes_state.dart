@@ -1,6 +1,6 @@
 import 'package:notes/models/notes.dart';
 
-abstract class NotesState {}
+sealed class NotesState {}
 
 class NotesInitial extends NotesState {}
 

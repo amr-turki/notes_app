@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/cubits/add_note_cubit.dart';
+import 'package:notes/cubits/edit_note_cubit.dart' show EditNoteCubit;
 import 'package:notes/cubits/notes_cubit.dart';
 import 'package:notes/views/splash_screen.dart';
 
@@ -20,8 +22,12 @@ class _NotesApplicationState extends State<NotesApplication> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: NotesCubit.instance,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: NotesCubit.instance),
+        BlocProvider.value(value: AddNoteCubit.instance),
+        BlocProvider.value(value: EditNoteCubit.instance),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
 

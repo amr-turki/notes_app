@@ -25,7 +25,7 @@ class NotesListBuilder extends StatelessWidget {
         } else if (state is NotesFailure) {
           return Center(child: Text(state.errorMessage));
         }
-        return const SizedBox.shrink();
+        return const SizedBox();
       },
     );
   }

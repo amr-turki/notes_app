@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
               LeftDrawerWidget(),
               const SizedBox(height: 5),
 
-              NotesCubit.instance.isloading
+              NotesCubit.instance.isLoading
                   ? EnableSearchWidget()
                   : DisableSearchWidget(),
 
