@@ -79,9 +79,7 @@ class EditNoteWidget extends StatelessWidget {
       color: selectedColor.value,
       date: DateTime.now().toIso8601String(),
     );
-    BlocProvider.of<NotesCubit>(
-      context,
-    ).editNote(index: index, updatedNote: updatedNote);
+    NotesCubit.instance.editNote(index: index, updatedNote: updatedNote);
     Navigator.pop(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Item Edited'), duration: Duration(seconds: 2)),

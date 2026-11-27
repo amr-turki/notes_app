@@ -83,7 +83,7 @@ class NotesFeedWidget extends StatelessWidget {
   }
 
   void _deleteItem(BuildContext context, int index) {
-    BlocProvider.of<NotesCubit>(context).deleteNote(notesList[index]);
+    NotesCubit.instance.deleteNote(notesList[index]);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Item deleted'), duration: Duration(seconds: 2)),

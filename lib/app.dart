@@ -20,8 +20,8 @@ class _NotesApplicationState extends State<NotesApplication> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NotesCubit(),
+    return BlocProvider.value(
+      value: NotesCubit.instance,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
 

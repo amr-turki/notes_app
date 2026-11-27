@@ -79,7 +79,7 @@ class _NoteItemState extends State<NoteItem> {
   }
 
   void _deleteItem(BuildContext context) {
-    BlocProvider.of<NotesCubit>(context).deleteNote(widget.note);
+    NotesCubit.instance.deleteNote(widget.note);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Item deleted'), duration: Duration(seconds: 2)),

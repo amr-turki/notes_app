@@ -4,11 +4,19 @@ import 'package:notes/models/notes.dart';
 import 'notes_state.dart';
 
 class NotesCubit extends Cubit<NotesState> {
-  NotesCubit() : super(NotesInitial()) {
+  NotesCubit._internal() : super(NotesInitial()) {
     fetchAllNotes();
   }
 
+  static final NotesCubit instance = NotesCubit._internal();
+
   List<Notes> _allNotes = [];
+  bool isloading = false;
+  void changeSearchVisibility() {
+    isloading = !isloading;
+    emit(NotesSuccess(_allNotes));
+  }
+
   void fetchAllNotes() {
     try {
       emit(NotesLoading());
